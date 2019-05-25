@@ -4,12 +4,20 @@
 
   $: uppercaseName = name.toUpperCase();
 
+  $: if (name === "Kushal") {
+    age = 18;
+  }
+
   const changeAge = () => {
     age += 1;
   };
 
   function changeName() {
     name = "Kushal";
+  }
+
+  function nameInput(event) {
+    name = event.target.value;
   }
 </script>
 
@@ -21,4 +29,6 @@
 
 <h1>Hello {uppercaseName}, my age is {age}!</h1>
 <button on:click={changeAge}>Change Age</button>
-<button on:click={changeName}>Change name</button>
+<!-- <button on:click={changeName}>Change name</button> -->
+<!-- <input type="text" value={name} on:input={nameInput} /> -->
+<input type="text" bind:value={name} />
