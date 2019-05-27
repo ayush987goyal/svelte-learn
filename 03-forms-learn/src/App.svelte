@@ -9,6 +9,8 @@
   let favColor = "green";
   let multiFavColor = ["green"];
   let singleFavColor = "red";
+  let usernameInput;
+  let customInputRef;
 
   $: console.log(val);
   $: console.log(selectedOption);
@@ -17,9 +19,17 @@
   $: console.log(favColor);
   $: console.log(multiFavColor);
   $: console.log(singleFavColor);
+  $: console.log(customInputRef);
+
+  function saveData() {
+    console.log(usernameInput.value);
+    console.dir(usernameInput);
+
+    customInputRef.empty();
+  }
 </script>
 
-<CustomInput bind:val />
+<CustomInput bind:val bind:this={customInputRef} />
 
 <Toggle bind:chosenOption={selectedOption} />
 
@@ -71,3 +81,8 @@
   <option value="red">Red</option>
   <option value="blue">Blue</option>
 </select>
+
+<hr />
+
+<input type="text" bind:this={usernameInput} />
+<button on:click={saveData}>Save</button>
