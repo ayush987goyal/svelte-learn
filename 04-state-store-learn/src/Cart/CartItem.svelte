@@ -42,7 +42,7 @@
   <h1>{title}</h1>
   <h2>{price}</h2>
   <Button mode="outline" on:click={displayDescription}>
-    {showDescription ? 'Hide Description' : 'Show Description'}
+     {showDescription ? 'Hide Description' : 'Show Description'}
   </Button>
   <Button on:click={removeFromCart}>Remove from Cart</Button>
   {#if showDescription}
