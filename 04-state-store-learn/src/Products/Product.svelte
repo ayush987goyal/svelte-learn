@@ -9,9 +9,7 @@
 
   function addToCart() {
     // cartItems.set([]);
-    cartItems.update(items => {
-      return [...items, { id, title, price }];
-    });
+    cartItems.addItem({ id, title, price });
   }
 </script>
 

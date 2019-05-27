@@ -13,4 +13,18 @@ const cart = writable([
   }
 ]);
 
-export default cart;
+const customCart = {
+  subscribe: cart.subscribe,
+
+  addItem: item => {
+    cart.update(items => {
+      return [...items, item];
+    });
+  },
+
+  removeItem: id => {
+    cart.update(items => items.filter(item => item.id !== id));
+  }
+};
+
+export default customCart;
