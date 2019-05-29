@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { API_URL } from "./config.js";
+  import hobbyStore from "./hobby-store.js";
 
   let hobbyInput;
   let hobbies = [];
@@ -18,8 +19,8 @@
     .then(data => {
       isLoading = false;
 
-      hobbies = Object.values(data);
-      return hobbies;
+      hobbyStore.setHobbies(Object.values(data));
+      return hobbyStore;
     })
     .catch(err => {
       isLoading = false;
@@ -27,7 +28,7 @@
     });
 
   function addHobby() {
-    hobbies = [...hobbies, hobbyInput.value];
+    // hobbies = [...hobbies, hobbyInput.value];
 
     isLoading = true;
     fetch(`${API_URL}/hobbies.json`, {
@@ -41,6 +42,7 @@
           throw new Error("Failed!");
         }
 
+        hobbyStore.addHobby(hobbyInput.value);
         alert("Saved data!");
       })
       .catch(err => {
@@ -58,7 +60,7 @@
   <p>Loading...</p>
 {:else}
   <ul>
-    {#each hobbies as hobby}
+    {#each $hobbyStore as hobby}
       <li>{hobby}</li>
     {/each}
   </ul>
