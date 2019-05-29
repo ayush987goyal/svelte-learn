@@ -1,9 +1,30 @@
 <script>
+  import { onMount } from "svelte";
   import { API_URL } from "./config.js";
 
   let hobbyInput;
   let hobbies = [];
   let isLoading = false;
+
+  onMount(() => {
+    isLoading = true;
+    fetch(`${API_URL}/hobbies.json`)
+      .then(res => {
+        if (!res.ok) {
+          throw "Failed";
+        }
+
+        return res.json();
+      })
+      .then(data => {
+        isLoading = false;
+        hobbies = Object.values(data);
+      })
+      .catch(err => {
+        isLoading = false;
+        console.log(err);
+      });
+  });
 
   function addHobby() {
     hobbies = [...hobbies, hobbyInput.value];
