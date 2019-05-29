@@ -6,25 +6,25 @@
   let hobbies = [];
   let isLoading = false;
 
-  onMount(() => {
-    isLoading = true;
-    fetch(`${API_URL}/hobbies.json`)
-      .then(res => {
-        if (!res.ok) {
-          throw "Failed";
-        }
+  isLoading = true;
+  let getHobbies = fetch(`${API_URL}/hobbies.json`)
+    .then(res => {
+      if (!res.ok) {
+        throw "Failed";
+      }
 
-        return res.json();
-      })
-      .then(data => {
-        isLoading = false;
-        hobbies = Object.values(data);
-      })
-      .catch(err => {
-        isLoading = false;
-        console.log(err);
-      });
-  });
+      return res.json();
+    })
+    .then(data => {
+      isLoading = false;
+
+      hobbies = Object.values(data);
+      return hobbies;
+    })
+    .catch(err => {
+      isLoading = false;
+      console.log(err);
+    });
 
   function addHobby() {
     hobbies = [...hobbies, hobbyInput.value];
@@ -63,3 +63,15 @@
     {/each}
   </ul>
 {/if}
+
+<!-- {#await getHobbies}
+  <p>Loading...</p>
+{:then hobbyData}
+  <ul>
+    {#each hobbyData as hobby}
+      <li>{hobby}</li>
+    {/each}
+  </ul>
+{:catch error}
+  <p>{error.message}</p>
+{/await} -->
