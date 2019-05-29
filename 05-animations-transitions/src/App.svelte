@@ -3,6 +3,7 @@
   import { tweened } from "svelte/motion";
   import { cubicIn } from "svelte/easing";
   import { fade, fly, slide, scale } from "svelte/transition";
+  import { flip } from "svelte/animate";
 
   import Spring from "./Spring.svelte";
 
@@ -22,7 +23,7 @@
   let boxes = [];
 
   function addBox() {
-    boxes = [...boxes, boxInput.value];
+    boxes = [boxInput.value, ...boxes];
   }
 
   function discard(value) {
@@ -47,7 +48,7 @@
 
 <button on:click={() => (showPara = !showPara)}>Toggle</button>
 {#if showPara}
-  <p transition:fly={{ x: 300 }}>Can you see me?</p>
+  <p in:fade out:fly={{ x: 300 }}>Can you see me?</p>
 {/if}
 
 <hr />
@@ -63,7 +64,8 @@
       on:introstart={() => console.log('Adding element starts')}
       on:introend={() => console.log('Adding element ends')}
       on:outrostart={() => console.log('Removing element starts')}
-      on:outroend={() => console.log('Removing element ends')}>
+      on:outroend={() => console.log('Removing element ends')}
+      animate:flip={{ duration: 300 }}>
        {box}
     </div>
   {/each}
