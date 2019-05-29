@@ -13,6 +13,7 @@
   });
 
   let boxInput;
+  let showPara = false;
 
   setTimeout(() => {
     progress.set(0.5);
@@ -44,11 +45,26 @@
 <!-- <progress value={$progress} /> -->
 <!-- <Spring /> -->
 
+<button on:click={() => (showPara = !showPara)}>Toggle</button>
+{#if showPara}
+  <p transition:fly={{ x: 300 }}>Can you see me?</p>
+{/if}
+
+<hr />
+
 <input type="text" bind:this={boxInput} />
 <button on:click={addBox}>Add</button>
 
-{#each boxes as box (box)}
-  <div transition:fly={{ x: 200, y: 3 }} on:click={discard.bind(this, box)}>
-     {box}
-  </div>
-{/each}
+{#if showPara}
+  {#each boxes as box (box)}
+    <div
+      transition:fly={{ x: 200, y: 3 }}
+      on:click={discard.bind(this, box)}
+      on:introstart={() => console.log('Adding element starts')}
+      on:introend={() => console.log('Adding element ends')}
+      on:outrostart={() => console.log('Removing element starts')}
+      on:outroend={() => console.log('Removing element ends')}>
+       {box}
+    </div>
+  {/each}
+{/if}
