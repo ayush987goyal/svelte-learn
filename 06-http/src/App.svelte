@@ -3,21 +3,29 @@
 
   let hobbyInput;
   let hobbies = [];
+  let isLoading = false;
 
   function addHobby() {
     hobbies = [...hobbies, hobbyInput.value];
 
+    isLoading = true;
     fetch(`${API_URL}/hobbies.json`, {
       method: "POST",
-      body: JSON.stringify(hobbies),
+      body: JSON.stringify(hobbyInput.value),
       headers: { "Content-Type": "application/json" }
     })
       .then(res => {
+        isLoading = false;
         if (!res.ok) {
           throw new Error("Failed!");
         }
+
+        alert("Saved data!");
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        isLoading = false;
+        console.log(err);
+      });
   }
 </script>
 
@@ -25,8 +33,12 @@
 <input type="text" id="hobby" bind:this={hobbyInput} />
 <button on:click={addHobby}>Add Hobby</button>
 
-<ul>
-  {#each hobbies as hobby}
-    <li>{hobby}</li>
-  {/each}
-</ul>
+{#if isLoading}
+  <p>Loading...</p>
+{:else}
+  <ul>
+    {#each hobbies as hobby}
+      <li>{hobby}</li>
+    {/each}
+  </ul>
+{/if}
